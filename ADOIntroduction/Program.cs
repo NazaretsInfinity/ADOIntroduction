@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Remoting.Contexts;
+using System.Runtime.Remoting.Messaging;
 
 namespace ADOIntroduction
 {
@@ -22,8 +23,9 @@ namespace ADOIntroduction
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
 
-#if Authors
+#if true // Authors output
             string cmd = "SELECT * FROM Authors";
+
             SqlCommand command = new SqlCommand(cmd, connection);
             SqlDataReader reader = command.ExecuteReader();
 
@@ -33,7 +35,8 @@ namespace ADOIntroduction
                 Console.Write(reader.GetName(i).PadRight(padding));
             Console.WriteLine();
 
-            if (!reader.IsClosed)
+           //if (!reader.IsClosed)
+           if(!reader.HasRows)
             {
                 while (reader.Read())
                 {
@@ -44,13 +47,65 @@ namespace ADOIntroduction
                     Console.WriteLine();
                 }
             }
+           reader.Close();
+           connection.Close();
+
+           Console.WriteLine("\n=================================\n");
+
+            command.CommandText = "SELECT [Book] = book_title, [Author] =  last_name  + first_name" +
+                                  " FROM Books JOIN Authors ON (author = author_id)";
+            connection.Open();
+            reader = command.ExecuteReader();
+            if(reader.HasRows)
+            {
+                for(int i = 0; i < reader.FieldCount; ++i)
+                    Console.Write(reader.GetName(i).PadRight(padding));
+                Console.WriteLine("\n");
+                while(reader.Read())
+                {
+                    for(int i = 0; i < reader.FieldCount; ++i)
+                    {
+                        Console.Write(reader[i].ToString().PadRight(padding));
+                    }
+                    Console.WriteLine();
+                }
+            }
             reader.Close();
-            connection.Close(); 
+            connection.Close();
+
+            Console.WriteLine("\n=================================\n");
+
+
+            command.CommandText = "SELECT [Author] =  last_name + ' ' +first_name,[Books count] =  COUNT(book_id) " +
+                                  "FROM Books JOIN Authors ON (author = author_id)" +
+                                  "GROUP BY last_name, first_name";
+
+            connection.Open();
+            reader = command.ExecuteReader();
+            if(reader.HasRows)
+            {
+                for (int i = 0; i < reader.FieldCount; ++i)
+                    Console.Write(reader.GetName(i).PadRight(padding));
+                Console.WriteLine();
+                while(reader.Read())
+                {
+                    for(int i = 0; i < reader.FieldCount; ++i)
+                    {
+                        Console.Write(reader[i].ToString().PadRight(padding));
+                    }
+                    Console.WriteLine();
+                }
+            }
+            reader.Close();
+            connection.Close();
 #endif
+
+#if true1
             string cmd = "SELECT book_title          AS \"Book name\"," +
-                         " FORMATMESSAGE('%s %s', last_name, first_name)         AS \"Author\"" +
-                         " FROM Books, Authors " +
-                         "WHERE author = author_id";
+                       " FORMATMESSAGE('%s %s', last_name, first_name)         AS \"Author\"" +
+                       " FROM Books, Authors " +
+                       "WHERE author = author_id";
+
             SqlCommand command = new SqlCommand(cmd, connection);
             SqlDataReader reader = command.ExecuteReader();
 
@@ -60,7 +115,7 @@ namespace ADOIntroduction
             Console.WriteLine("\n");
             Console.ResetColor();
 
-            if(!reader.IsClosed)
+            if (!reader.IsClosed)
             {
                 while (reader.Read())
                 {
@@ -68,10 +123,33 @@ namespace ADOIntroduction
                         Console.Write(reader[i].ToString().PadRight(padding));
                     Console.WriteLine();
                 }
-                
+
             }
-            reader.Close(); 
-            connection.Close();
+            reader.Close();
+#endif
+
+
+#if true1
+            string cmd = "SELECT COUNT(book_id) FROM Books, Authors WHERE author = author_id GROUP BY author";
+
+
+            SqlCommand command = new SqlCommand(cmd, connection);
+            try
+            {
+
+                Console.Write(Convert.ToByte(command.ExecuteScalar()).ToString().PadRight(padding));
+                Console.WriteLine("\n");
+
+
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            } 
+#endif
+
         }
     }
 }
