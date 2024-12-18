@@ -11,6 +11,9 @@ namespace LibraryTWO
     {
         static void Main(string[] args)
         {
+            Library.Insert("Authors", "author_id, last_name, first_name", "9, 'Stroustrup', 'Bjarne'");
+     
+
             Library.Select("author_id, first_name, last_name", "Authors");
             Library.Select("book_title, publish_date ,[Author]=first_name+ ' ' + last_name", "Authors,Books", "author = author_id", 34);
         }
