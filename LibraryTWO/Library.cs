@@ -63,25 +63,19 @@ namespace LibraryTWO
         public static void Insert(string table, string fields, string values)
         {
             string[] parameters = values.Replace("\'", "").Split(',');
-          
-           
             string paramvalues = "";
 
             for(int i = 0; i < parameters.Length-1; ++i)
-            {
                 paramvalues += $"@value{i} ,";
-            }
             paramvalues += $"@value{parameters.Length - 1}";
             
             
             string cmd = $"INSERT {table}({fields}) VALUES ({paramvalues});";
             SqlCommand command = new SqlCommand(cmd, connection);
-            
+
             for (int i = 0; i < parameters.Length; ++i)
-            {
-               command.Parameters.Add(new SqlParameter( $"@value{i}", $"{parameters[i]}"));
-            }
-            
+                command.Parameters.Add(new SqlParameter($"@value{i}", $"{parameters[i]}"));
+
             connection.Open();
             command.ExecuteNonQuery();
             connection.Close();
