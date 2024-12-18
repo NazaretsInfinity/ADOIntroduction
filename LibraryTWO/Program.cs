@@ -17,7 +17,7 @@ namespace LibraryTWO
             //Library.InsertAuthor(13, "Stroustrup", "Bjarne");
 
 
-            Library.InsertBook(7, "C++ Programming Language", 331, "1986-01-29", "Bjarne Stroustroup");
+            Library.InsertBook(10, "C++ Programming Language", 331, "1986-01-29", "Bjarne Stroustrup");
 
             Library.Select("author_id, first_name, last_name", "Authors");
             Library.Select("book_title, publish_date ,[Author]=first_name+ ' ' + last_name", "Authors,Books", "author = author_id", 34);
