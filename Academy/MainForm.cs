@@ -17,25 +17,28 @@ namespace Academy
     {
         string connectionString;
         SqlConnection connection;
+        Dictionary<string, int> d_groups_directions;
 
         public MainForm()
         {
             InitializeComponent();
             connectionString = ConfigurationManager.ConnectionStrings["Academy"].ConnectionString;
-            MessageBox.Show(this, connectionString, "Connection string", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show(this, connectionString, "Connection string", MessageBoxButtons.OK, MessageBoxIcon.Information);
             connection = new SqlConnection(connectionString);
 
-            Loadstudents();
-            LoadGroups();
+           LoadStudents();
+           LoadGroups();
+           LoadDirections();
         }
 
+        #region Old Loadstudents
         void Loadstudents()
         {
             string cmd = "SELECT * FROM Students";
             SqlCommand command = new SqlCommand(cmd, connection);
             connection.Open();
             SqlDataReader reader = command.ExecuteReader();
-     
+
             DataTable table = new DataTable();
             if (reader.HasRows)
             {
@@ -44,46 +47,45 @@ namespace Academy
 
                 while (reader.Read())
                 {
-                    DataRow row = table.NewRow();
+                    DataRow row = table.NewRow();//NewRow() creates a row which fields are relevant to 'table'
                     for (int i = 0; i < reader.FieldCount; ++i)
                     {
                         row[i] = reader[i];
                     }
-                    table.Rows.Add(row);
+                    table.Rows.Add(row); // And this one add the row in GroupTable for real
+                                         // (in DataRowCollection that contains DataRow objects)    
                 }
                 dataGridViewStudents.DataSource = table;
             }
             reader.Close();
             connection.Close();
-        }
+        } 
+        #endregion
 
         void LoadGroups()
         {
-            string cmd = "SELECT * FROM Groups";
-            SqlCommand command = new SqlCommand(cmd, connection);
+            dataGridViewGroups.DataSource = Connector.LoadData("[ID]=group_id, [Group]=group_name, [Direction] = direction_name", 
+                                                                "Groups,Directions" , "direction = direction_id");
+            tslGroupCount.Text = $"Amount of Groups: {dataGridViewGroups.RowCount - 1}";
+        }
 
-            connection.Open();
-            SqlDataReader reader = command.ExecuteReader();
+        void LoadStudents()
+        {
+            dataGridViewStudents.DataSource = Connector.LoadData
+           (
+                "[Last name] = last_name, [First name] = first_name, [Middle name] = ISNULL(middle_name, N''), [Day of Birth] = birth_date," +
+                "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, [Group] = group_name",
+                "Students,Groups",
+                "[group] = group_id"
+           );
+            tslStudentsLabelCount.Text = $"Amount of Students: {dataGridViewStudents.RowCount-1}";
+        }
 
-            DataTable GroupTable = new DataTable();
-            if (reader.HasRows)
-            {
-                for (int i = 0; i < reader.FieldCount; ++i)
-                    GroupTable.Columns.Add(reader.GetName(i));
-
-                while(reader.Read())
-                {
-                    DataRow row = GroupTable.NewRow(); //NewRow() creates a row which fields are relevant to GroupTable
-                    for (int i = 0; i < reader.FieldCount; ++i)
-                        row[i] = reader[i];
-                    GroupTable.Rows.Add(row); // And this one add the row in GroupTable for real
-                                              // (in DataRowCollection that contains DataRow objects)  
-                                              
-                    dataGridViewGroups.DataSource = GroupTable;
-                }
-            }
-            reader.Close();
-            connection.Close();
+        void LoadDirections()
+        {
+            // DataTable dt_direction = Connector.LoadData("direction_id, direction_name", "Directions");
+            d_groups_directions = Connector.LoadPair("direction_name", "direction_id", "Directions");
+            cbGroupsDirection.Items.AddRange(d_groups_directions.Keys.ToArray());
         }
     }
 }
