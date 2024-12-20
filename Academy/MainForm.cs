@@ -35,7 +35,7 @@ namespace Academy
             SqlCommand command = new SqlCommand(cmd, connection);
             connection.Open();
             SqlDataReader reader = command.ExecuteReader();
-
+     
             DataTable table = new DataTable();
             if (reader.HasRows)
             {
@@ -73,10 +73,12 @@ namespace Academy
 
                 while(reader.Read())
                 {
-                    DataRow row = GroupTable.NewRow();
+                    DataRow row = GroupTable.NewRow(); //NewRow() creates a row which fields are relevant to GroupTable
                     for (int i = 0; i < reader.FieldCount; ++i)
                         row[i] = reader[i];
-                    GroupTable.Rows.Add(row);
+                    GroupTable.Rows.Add(row); // And this one add the row in GroupTable for real
+                                              // (in DataRowCollection that contains DataRow objects)  
+                                              
                     dataGridViewGroups.DataSource = GroupTable;
                 }
             }
