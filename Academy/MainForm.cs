@@ -17,7 +17,8 @@ namespace Academy
     {
         string connectionString;
         SqlConnection connection;
-        Dictionary<string, int> d_groups_directions;
+        Dictionary<string, int> d_directions;
+        Dictionary<string, int> d_groups;
 
         public MainForm()
         {
@@ -26,9 +27,15 @@ namespace Academy
             //MessageBox.Show(this, connectionString, "Connection string", MessageBoxButtons.OK, MessageBoxIcon.Information);
             connection = new SqlConnection(connectionString);
 
+            d_directions = Connector.LoadPair("direction_name", "direction_id", "Directions");
+            d_groups = Connector.LoadPair("group_name", "group_id", "Groups");
+            LoadDictionaryToComboBox(d_groups, cbStudents_group);
+            LoadDictionaryToComboBox(d_directions, cbGroupsDirection);
+            LoadDictionaryToComboBox(d_directions, cbStudents_direction);
+
            LoadStudents();
            LoadGroups();
-           LoadDirections();
+          
         }
 
         #region Old Loadstudents
@@ -92,16 +99,11 @@ namespace Academy
             tslStudentsLabelCount.Text = $"Amount of Students: {dataGridViewStudents.RowCount-1}";
         }
 
-        void LoadDirections()
+        void LoadDictionaryToComboBox(Dictionary<string, int> dc, ComboBox bc)
         {
-            if (cbGroupsDirection.SelectedIndex == 0) LoadGroups();
-            else
-            {
-                d_groups_directions = Connector.LoadPair("direction_name", "direction_id", "Directions");
-                cbGroupsDirection.Items.AddRange(d_groups_directions.Keys.ToArray());
-                cbGroupsDirection.Items.Insert(0, "All");
-                cbGroupsDirection.SelectedIndex = 0;
-            }
+                bc.Items.AddRange(dc.Keys.ToArray());
+                bc.Items.Insert(0, "All");
+                bc.SelectedIndex = 0;       
         }
 
         private void cbGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
@@ -112,7 +114,7 @@ namespace Academy
             (
                 "group_id, group_name, direction_name",
                 "Groups, Directions",
-                $"direction = direction_id AND direction = {d_groups_directions[cbGroupsDirection.SelectedItem.ToString()]}"
+                $"direction = direction_id AND direction = {d_directions[cbGroupsDirection.SelectedItem.ToString()]}"
             );
             tslGroupCount.Text = $"Amount of Groups: {(dataGridViewGroups.RowCount == 0 ? 0 : dataGridViewGroups.RowCount-1)}";
         }
