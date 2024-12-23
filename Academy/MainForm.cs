@@ -64,8 +64,19 @@ namespace Academy
 
         void LoadGroups()
         {
-            dataGridViewGroups.DataSource = Connector.LoadData("[ID]=group_id, [Group]=group_name, [Direction] = direction_name", 
-                                                                "Groups,Directions" , "direction = direction_id");
+            dataGridViewGroups.DataSource = Connector.LoadData
+                (
+                " [ID]=group_id," +
+                " [Group]=group_name," +
+                " [Direction] = direction_name, " +
+                " [Amount of students] = COUNT(student_id)",
+                                                              
+                "Students RIGHT JOIN Groups ON([group] = group_id) " +
+                "JOIN Directions ON(direction = direction_id)" ,
+                
+                "direction = direction_id " +
+                "GROUP BY group_id, group_name, direction_name"
+                );
             tslGroupCount.Text = $"Amount of Groups: {dataGridViewGroups.RowCount - 1}";
         }
 
