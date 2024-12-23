@@ -61,9 +61,11 @@ namespace Academy
             SqlCommand command = new SqlCommand(cmd, connection);
             connection.Open();
             SqlDataReader reader = command.ExecuteReader();
+
+                dictionary = new Dictionary<string, int>();
+                dictionary["All"] = 0;
             if(reader.HasRows)
             {
-                dictionary = new Dictionary<string, int>();
                 while(reader.Read())
                 {
                     dictionary[reader[0].ToString()] = Convert.ToInt32(reader[1]);

@@ -92,18 +92,19 @@ namespace Academy
             dataGridViewStudents.DataSource = Connector.LoadData
            (
                 "[Last name] = last_name, [First name] = first_name, [Middle name] = ISNULL(middle_name, N''), [Day of Birth] = birth_date," +
-                "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, [Group] = group_name",
-                "Students,Groups",
-                "[group] = group_id"
+                "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, [Group] = group_name,  [Direction] = direction_name",
+                "Students,Groups,Directions",
+                "[group] = group_id AND direction = direction_id"
            );
             tslStudentsLabelCount.Text = $"Amount of Students: {dataGridViewStudents.RowCount-1}";
         }
 
         void LoadDictionaryToComboBox(Dictionary<string, int> dc, ComboBox bc)
         {
+                bc.Items.Clear();
                 bc.Items.AddRange(dc.Keys.ToArray());
-                bc.Items.Insert(0, "All");
-                bc.SelectedIndex = 0;       
+               // bc.Items.Insert(0, "All");
+               // bc.SelectedIndex = 0;       
         }
 
         private void cbGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
@@ -117,6 +118,51 @@ namespace Academy
                 $"direction = direction_id AND direction = {d_directions[cbGroupsDirection.SelectedItem.ToString()]}"
             );
             tslGroupCount.Text = $"Amount of Groups: {(dataGridViewGroups.RowCount == 0 ? 0 : dataGridViewGroups.RowCount-1)}";
+        }
+
+        private void cbStudents_group_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            if (cbStudents_group.SelectedIndex == 0) LoadStudents();
+            else dataGridViewStudents.DataSource = Connector.LoadData
+                (
+                 "[Last name] = last_name, [First name] = first_name, [Middle name] = ISNULL(middle_name, N''), [Day of Birth] = birth_date," +
+                 "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, [Group] = group_name,  [Direction] = direction_name",
+                 "Students,Groups,Directions",
+                 $"direction= direction_id AND [group] = group_id AND group_id = {d_groups[cbStudents_group.SelectedItem.ToString()]}"
+                );
+            tslStudentsLabelCount.Text = $"Amount of students: {(dataGridViewStudents.RowCount == 0 ? 0 : dataGridViewStudents.RowCount - 1)}";
+        }
+
+        private void cbStudents_direction_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int FilterID = cbStudents_direction == null? 0: d_directions[cbStudents_direction.SelectedItem.ToString()];
+            if (FilterID == 0)
+            {
+                d_groups = Connector.LoadPair("group_name", "group_id", "Groups", $"direction = {FilterID}");
+                LoadDictionaryToComboBox(d_groups, cbStudents_group);
+                LoadStudents();
+            }
+            else
+            {
+                d_groups = Connector.LoadPair("group_name", "group_id", "Groups", $"direction = {FilterID}");
+                this.LoadDictionaryToComboBox(d_groups, cbStudents_group);
+                dataGridViewStudents.DataSource = Connector.LoadData
+                (
+                 "[Last name] = last_name, " +
+                 "[First name] = first_name," +
+                 "[Middle name] = ISNULL(middle_name, N''), " +
+                 "[Day of Birth] = birth_date," +
+                 "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, " +
+                 "[Group] = group_name," +
+                 "[Direction] = direction_name",
+
+                 "Students,Groups,Directions",
+
+                 $"[group] = group_id AND direction = direction_id AND direction_id = {d_directions[cbStudents_direction.SelectedItem.ToString()]}"
+                );
+            }
+            tslStudentsLabelCount.Text = $"Amount of students: {(dataGridViewStudents.RowCount == 0 ? 0 : dataGridViewStudents.RowCount - 1)}";
         }
     }
 }

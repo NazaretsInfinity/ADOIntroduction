@@ -106,6 +106,7 @@
             this.cbStudents_direction.Name = "cbStudents_direction";
             this.cbStudents_direction.Size = new System.Drawing.Size(258, 24);
             this.cbStudents_direction.TabIndex = 3;
+            this.cbStudents_direction.SelectedIndexChanged += new System.EventHandler(this.cbStudents_direction_SelectedIndexChanged);
             // 
             // cbStudents_group
             // 
@@ -115,6 +116,7 @@
             this.cbStudents_group.Name = "cbStudents_group";
             this.cbStudents_group.Size = new System.Drawing.Size(258, 24);
             this.cbStudents_group.TabIndex = 2;
+            this.cbStudents_group.SelectedIndexChanged += new System.EventHandler(this.cbStudents_group_SelectedIndexChanged);
             // 
             // dataGridViewStudents
             // 
