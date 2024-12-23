@@ -35,11 +35,11 @@
             this.statusStripGroups = new System.Windows.Forms.StatusStrip();
             this.tslStudentsLabelCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPageGroups = new System.Windows.Forms.TabPage();
+            this.lbGroupsDirection = new System.Windows.Forms.Label();
+            this.cbGroupsDirection = new System.Windows.Forms.ComboBox();
             this.dataGridViewGroups = new System.Windows.Forms.DataGridView();
             this.StatusStripStudents = new System.Windows.Forms.StatusStrip();
             this.tslGroupCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.cbGroupsDirection = new System.Windows.Forms.ComboBox();
-            this.lbGroupsDirection = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageStudents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
@@ -117,6 +117,24 @@
             this.tabPageGroups.TabIndex = 1;
             this.tabPageGroups.Text = "Groups";
             // 
+            // lbGroupsDirection
+            // 
+            this.lbGroupsDirection.AutoSize = true;
+            this.lbGroupsDirection.Location = new System.Drawing.Point(251, 9);
+            this.lbGroupsDirection.Name = "lbGroupsDirection";
+            this.lbGroupsDirection.Size = new System.Drawing.Size(60, 16);
+            this.lbGroupsDirection.TabIndex = 4;
+            this.lbGroupsDirection.Text = "Direction";
+            // 
+            // cbGroupsDirection
+            // 
+            this.cbGroupsDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGroupsDirection.Location = new System.Drawing.Point(317, 6);
+            this.cbGroupsDirection.Name = "cbGroupsDirection";
+            this.cbGroupsDirection.Size = new System.Drawing.Size(258, 24);
+            this.cbGroupsDirection.TabIndex = 3;
+            this.cbGroupsDirection.SelectedIndexChanged += new System.EventHandler(this.cbGroupsDirection_SelectedIndexChanged);
+            // 
             // dataGridViewGroups
             // 
             this.dataGridViewGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -149,23 +167,6 @@
             this.tslGroupCount.Name = "tslGroupCount";
             this.tslGroupCount.Size = new System.Drawing.Size(140, 21);
             this.tslGroupCount.Text = "Количество Групп";
-            // 
-            // cbGroupsDirection
-            // 
-            this.cbGroupsDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGroupsDirection.Location = new System.Drawing.Point(317, 6);
-            this.cbGroupsDirection.Name = "cbGroupsDirection";
-            this.cbGroupsDirection.Size = new System.Drawing.Size(258, 24);
-            this.cbGroupsDirection.TabIndex = 3;
-            // 
-            // lbGroupsDirection
-            // 
-            this.lbGroupsDirection.AutoSize = true;
-            this.lbGroupsDirection.Location = new System.Drawing.Point(251, 9);
-            this.lbGroupsDirection.Name = "lbGroupsDirection";
-            this.lbGroupsDirection.Size = new System.Drawing.Size(60, 16);
-            this.lbGroupsDirection.TabIndex = 4;
-            this.lbGroupsDirection.Text = "Direction";
             // 
             // MainForm
             // 

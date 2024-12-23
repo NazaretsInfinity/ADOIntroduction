@@ -83,9 +83,27 @@ namespace Academy
 
         void LoadDirections()
         {
-            // DataTable dt_direction = Connector.LoadData("direction_id, direction_name", "Directions");
-            d_groups_directions = Connector.LoadPair("direction_name", "direction_id", "Directions");
-            cbGroupsDirection.Items.AddRange(d_groups_directions.Keys.ToArray());
+            if (cbGroupsDirection.SelectedIndex == 0) LoadGroups();
+            else
+            {
+                d_groups_directions = Connector.LoadPair("direction_name", "direction_id", "Directions");
+                cbGroupsDirection.Items.AddRange(d_groups_directions.Keys.ToArray());
+                cbGroupsDirection.Items.Insert(0, "All");
+                cbGroupsDirection.SelectedIndex = 0;
+            }
+        }
+
+        private void cbGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbGroupsDirection.SelectedIndex == 0)LoadGroups();
+            else 
+            dataGridViewGroups.DataSource = Connector.LoadData
+            (
+                "group_id, group_name, direction_name",
+                "Groups, Directions",
+                $"direction = direction_id AND direction = {d_groups_directions[cbGroupsDirection.SelectedItem.ToString()]}"
+            );
+            tslGroupCount.Text = $"Amount of Groups: {(dataGridViewGroups.RowCount == 0 ? 0 : dataGridViewGroups.RowCount-1)}";
         }
     }
 }
