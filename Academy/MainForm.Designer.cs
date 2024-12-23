@@ -40,6 +40,7 @@
             this.dataGridViewGroups = new System.Windows.Forms.DataGridView();
             this.StatusStripStudents = new System.Windows.Forms.StatusStrip();
             this.tslGroupCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tslStudentsInGroup = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPageTeachers = new System.Windows.Forms.TabPage();
             this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
             this.tabControl.SuspendLayout();
@@ -162,12 +163,14 @@
             this.dataGridViewGroups.RowTemplate.Height = 24;
             this.dataGridViewGroups.Size = new System.Drawing.Size(825, 438);
             this.dataGridViewGroups.TabIndex = 2;
+            this.dataGridViewGroups.Click += new System.EventHandler(this.dataGridViewGroups_Click);
             // 
             // StatusStripStudents
             // 
             this.StatusStripStudents.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.StatusStripStudents.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tslGroupCount});
+            this.tslGroupCount,
+            this.tslStudentsInGroup});
             this.StatusStripStudents.Location = new System.Drawing.Point(3, 488);
             this.StatusStripStudents.Name = "StatusStripStudents";
             this.StatusStripStudents.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
@@ -181,13 +184,20 @@
             this.tslGroupCount.Size = new System.Drawing.Size(140, 21);
             this.tslGroupCount.Text = "Количество Групп";
             // 
+            // tslStudentsInGroup
+            // 
+            this.tslStudentsInGroup.Name = "tslStudentsInGroup";
+            this.tslStudentsInGroup.Size = new System.Drawing.Size(237, 21);
+            this.tslStudentsInGroup.Text = "Количество Студентов в группе";
+            this.tslStudentsInGroup.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            // 
             // tabPageTeachers
             // 
             this.tabPageTeachers.Controls.Add(this.dataGridViewTeachers);
             this.tabPageTeachers.Location = new System.Drawing.Point(4, 25);
-            this.tabPageTeachers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageTeachers.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageTeachers.Name = "tabPageTeachers";
-            this.tabPageTeachers.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageTeachers.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageTeachers.Size = new System.Drawing.Size(828, 517);
             this.tabPageTeachers.TabIndex = 2;
             this.tabPageTeachers.Text = "Teachers";
@@ -249,6 +259,7 @@
         private System.Windows.Forms.ComboBox cbGroupsDirection;
         private System.Windows.Forms.TabPage tabPageTeachers;
         private System.Windows.Forms.DataGridView dataGridViewTeachers;
+        private System.Windows.Forms.ToolStripStatusLabel tslStudentsInGroup;
     }
 }
 

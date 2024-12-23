@@ -116,5 +116,17 @@ namespace Academy
             );
             tslGroupCount.Text = $"Amount of Groups: {(dataGridViewGroups.RowCount == 0 ? 0 : dataGridViewGroups.RowCount-1)}";
         }
+
+        private void dataGridViewGroups_Click(object sender, EventArgs e)
+
+        { 
+            int counter = 0;
+            foreach (DataGridViewRow row in dataGridViewStudents.Rows)
+                
+                if (row.Cells[5].Value != null & 
+                    row.Cells[5].Value?.ToString() == (sender as DataGridView).CurrentRow.Cells[1].Value.ToString())counter++;
+                   
+            tslStudentsInGroup.Text = $"Количество студентов: {counter}";
+        }
     }
 }
