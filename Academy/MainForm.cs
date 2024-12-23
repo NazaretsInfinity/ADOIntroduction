@@ -26,6 +26,7 @@ namespace Academy
             connection = new SqlConnection(connectionString);
 
            LoadStudents();
+           LoadGroupsForStudents();
            LoadGroups();
            LoadTeachers();
            LoadDirections();
@@ -65,7 +66,7 @@ namespace Academy
         void LoadGroups()
         {
             dataGridViewGroups.DataSource = Connector.LoadData("[ID]=group_id, [Group]=group_name, [Direction] = direction_name", 
-                                                                "Groups,Directions" , "direction = direction_id");
+                                                                "Groups,Directions" , $"direction = direction_id");
             tslGroupCount.Text = $"Amount of Groups: {dataGridViewGroups.RowCount - 1}";
         }
 
@@ -79,7 +80,7 @@ namespace Academy
                 "[group] = group_id"
            );
             tslStudentsLabelCount.Text = $"Amount of Students: {dataGridViewStudents.RowCount-1}";
-            
+           
         }
         void LoadTeachers()
         {
@@ -91,11 +92,9 @@ namespace Academy
              );
         }
 
-        void LoadDirections()
-        {
-                LoadBox(cbGroups_direction, "direction_name", "direction_id", "Directions");
-        }
-
+        //Boxes(disembowel me)
+        void LoadDirections()=>LoadBox(cbGroups_direction, "direction_name", "direction_id", "Directions");
+        void LoadGroupsForStudents()=>LoadBox(cbStudents_groups, "group_name", "group_id", "Groups");
 
         public static void LoadBox(ComboBox box, string name, string id, string tables)
         {
@@ -104,6 +103,7 @@ namespace Academy
             box.Items.Insert(0, "All");
             box.SelectedIndex = 0;
         }
+
 
         //EVENTS
         private void cbGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
@@ -116,9 +116,24 @@ namespace Academy
                 "Groups, Directions",
                 $"direction = direction_id AND direction_name = '{cbGroups_direction.SelectedItem}'"
             );
-
             tslGroupCount.Text = $"Amount of Groups: {(dataGridViewGroups.RowCount == 0 ? 0 : dataGridViewGroups.RowCount-1)}";
         }
+        private void cbStudents_groups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbStudents_groups.SelectedIndex == 0)LoadStudents();
+            else
+            {
+                dataGridViewStudents.DataSource = Connector.LoadData
+                (
+                     "[Last name] = last_name, [First name] = first_name, [Middle name] = ISNULL(middle_name, N''), [Day of Birth] = birth_date," +
+                     "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, [Group] = group_name",
+                     "Students,Groups",
+                     $"[group] = group_id AND group_name = '{cbStudents_groups.SelectedItem}'"
+                );
+                tslStudentsLabelCount.Text = $"Amount of Students: {dataGridViewStudents.RowCount - 1}";
+            }
+        }
+  
 
         private void dataGridViewGroups_Click(object sender, EventArgs e)
 
@@ -138,8 +153,5 @@ namespace Academy
             if(group!="")tslStudentsInGroup.Text = $"Количество студентов в {group} : {counter}";
         }
 
-        private void cbStudents_groups_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
     }
 }

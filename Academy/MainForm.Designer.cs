@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageStudents = new System.Windows.Forms.TabPage();
+            this.lbStudents_groups = new System.Windows.Forms.Label();
+            this.cbStudents_groups = new System.Windows.Forms.ComboBox();
             this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
             this.statusStripGroups = new System.Windows.Forms.StatusStrip();
             this.tslStudentsLabelCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -43,8 +45,6 @@
             this.tslStudentsInGroup = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPageTeachers = new System.Windows.Forms.TabPage();
             this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
-            this.cbStudents_groups = new System.Windows.Forms.ComboBox();
-            this.lbStudents_groups = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageStudents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
@@ -83,6 +83,24 @@
             this.tabPageStudents.TabIndex = 0;
             this.tabPageStudents.Text = "Students";
             this.tabPageStudents.UseVisualStyleBackColor = true;
+            // 
+            // lbStudents_groups
+            // 
+            this.lbStudents_groups.AutoSize = true;
+            this.lbStudents_groups.Location = new System.Drawing.Point(73, 8);
+            this.lbStudents_groups.Name = "lbStudents_groups";
+            this.lbStudents_groups.Size = new System.Drawing.Size(51, 16);
+            this.lbStudents_groups.TabIndex = 3;
+            this.lbStudents_groups.Text = "Groups";
+            // 
+            // cbStudents_groups
+            // 
+            this.cbStudents_groups.FormattingEnabled = true;
+            this.cbStudents_groups.Location = new System.Drawing.Point(130, 5);
+            this.cbStudents_groups.Name = "cbStudents_groups";
+            this.cbStudents_groups.Size = new System.Drawing.Size(183, 24);
+            this.cbStudents_groups.TabIndex = 2;
+            this.cbStudents_groups.SelectedIndexChanged += new System.EventHandler(this.cbStudents_groups_SelectedIndexChanged);
             // 
             // dataGridViewStudents
             // 
@@ -220,24 +238,6 @@
             this.dataGridViewTeachers.RowHeadersWidth = 51;
             this.dataGridViewTeachers.Size = new System.Drawing.Size(825, 438);
             this.dataGridViewTeachers.TabIndex = 0;
-            // 
-            // cbStudents_groups
-            // 
-            this.cbStudents_groups.FormattingEnabled = true;
-            this.cbStudents_groups.Location = new System.Drawing.Point(130, 5);
-            this.cbStudents_groups.Name = "cbStudents_groups";
-            this.cbStudents_groups.Size = new System.Drawing.Size(183, 24);
-            this.cbStudents_groups.TabIndex = 2;
-            this.cbStudents_groups.SelectedIndexChanged += new System.EventHandler(this.cbStudents_groups_SelectedIndexChanged);
-            // 
-            // lbStudents_groups
-            // 
-            this.lbStudents_groups.AutoSize = true;
-            this.lbStudents_groups.Location = new System.Drawing.Point(73, 8);
-            this.lbStudents_groups.Name = "lbStudents_groups";
-            this.lbStudents_groups.Size = new System.Drawing.Size(51, 16);
-            this.lbStudents_groups.TabIndex = 3;
-            this.lbStudents_groups.Text = "Groups";
             // 
             // MainForm
             // 
