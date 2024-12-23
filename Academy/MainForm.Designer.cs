@@ -36,13 +36,15 @@
             this.tslStudentsLabelCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPageGroups = new System.Windows.Forms.TabPage();
             this.lbGroupsDirection = new System.Windows.Forms.Label();
-            this.cbGroupsDirection = new System.Windows.Forms.ComboBox();
+            this.cbGroups_direction = new System.Windows.Forms.ComboBox();
             this.dataGridViewGroups = new System.Windows.Forms.DataGridView();
             this.StatusStripStudents = new System.Windows.Forms.StatusStrip();
             this.tslGroupCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.tslStudentsInGroup = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPageTeachers = new System.Windows.Forms.TabPage();
             this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
+            this.cbStudents_groups = new System.Windows.Forms.ComboBox();
+            this.lbStudents_groups = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageStudents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
@@ -69,6 +71,8 @@
             // 
             // tabPageStudents
             // 
+            this.tabPageStudents.Controls.Add(this.lbStudents_groups);
+            this.tabPageStudents.Controls.Add(this.cbStudents_groups);
             this.tabPageStudents.Controls.Add(this.dataGridViewStudents);
             this.tabPageStudents.Controls.Add(this.statusStripGroups);
             this.tabPageStudents.Location = new System.Drawing.Point(4, 25);
@@ -117,7 +121,7 @@
             // 
             this.tabPageGroups.BackColor = System.Drawing.Color.Transparent;
             this.tabPageGroups.Controls.Add(this.lbGroupsDirection);
-            this.tabPageGroups.Controls.Add(this.cbGroupsDirection);
+            this.tabPageGroups.Controls.Add(this.cbGroups_direction);
             this.tabPageGroups.Controls.Add(this.dataGridViewGroups);
             this.tabPageGroups.Controls.Add(this.StatusStripStudents);
             this.tabPageGroups.Location = new System.Drawing.Point(4, 25);
@@ -137,15 +141,15 @@
             this.lbGroupsDirection.TabIndex = 4;
             this.lbGroupsDirection.Text = "Direction";
             // 
-            // cbGroupsDirection
+            // cbGroups_direction
             // 
-            this.cbGroupsDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGroupsDirection.Location = new System.Drawing.Point(317, 6);
-            this.cbGroupsDirection.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cbGroupsDirection.Name = "cbGroupsDirection";
-            this.cbGroupsDirection.Size = new System.Drawing.Size(257, 24);
-            this.cbGroupsDirection.TabIndex = 3;
-            this.cbGroupsDirection.SelectedIndexChanged += new System.EventHandler(this.cbGroupsDirection_SelectedIndexChanged);
+            this.cbGroups_direction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGroups_direction.Location = new System.Drawing.Point(317, 6);
+            this.cbGroups_direction.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cbGroups_direction.Name = "cbGroups_direction";
+            this.cbGroups_direction.Size = new System.Drawing.Size(257, 24);
+            this.cbGroups_direction.TabIndex = 3;
+            this.cbGroups_direction.SelectedIndexChanged += new System.EventHandler(this.cbGroupsDirection_SelectedIndexChanged);
             // 
             // dataGridViewGroups
             // 
@@ -187,8 +191,8 @@
             // tslStudentsInGroup
             // 
             this.tslStudentsInGroup.Name = "tslStudentsInGroup";
-            this.tslStudentsInGroup.Size = new System.Drawing.Size(237, 21);
-            this.tslStudentsInGroup.Text = "Количество Студентов в группе";
+            this.tslStudentsInGroup.Size = new System.Drawing.Size(240, 21);
+            this.tslStudentsInGroup.Text = "Количество Студентов в группе:";
             this.tslStudentsInGroup.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // tabPageTeachers
@@ -216,6 +220,24 @@
             this.dataGridViewTeachers.RowHeadersWidth = 51;
             this.dataGridViewTeachers.Size = new System.Drawing.Size(825, 438);
             this.dataGridViewTeachers.TabIndex = 0;
+            // 
+            // cbStudents_groups
+            // 
+            this.cbStudents_groups.FormattingEnabled = true;
+            this.cbStudents_groups.Location = new System.Drawing.Point(130, 5);
+            this.cbStudents_groups.Name = "cbStudents_groups";
+            this.cbStudents_groups.Size = new System.Drawing.Size(183, 24);
+            this.cbStudents_groups.TabIndex = 2;
+            this.cbStudents_groups.SelectedIndexChanged += new System.EventHandler(this.cbStudents_groups_SelectedIndexChanged);
+            // 
+            // lbStudents_groups
+            // 
+            this.lbStudents_groups.AutoSize = true;
+            this.lbStudents_groups.Location = new System.Drawing.Point(73, 8);
+            this.lbStudents_groups.Name = "lbStudents_groups";
+            this.lbStudents_groups.Size = new System.Drawing.Size(51, 16);
+            this.lbStudents_groups.TabIndex = 3;
+            this.lbStudents_groups.Text = "Groups";
             // 
             // MainForm
             // 
@@ -256,10 +278,12 @@
         private System.Windows.Forms.DataGridView dataGridViewStudents;
         private System.Windows.Forms.DataGridView dataGridViewGroups;
         private System.Windows.Forms.Label lbGroupsDirection;
-        private System.Windows.Forms.ComboBox cbGroupsDirection;
+        private System.Windows.Forms.ComboBox cbGroups_direction;
         private System.Windows.Forms.TabPage tabPageTeachers;
         private System.Windows.Forms.DataGridView dataGridViewTeachers;
         private System.Windows.Forms.ToolStripStatusLabel tslStudentsInGroup;
+        private System.Windows.Forms.Label lbStudents_groups;
+        private System.Windows.Forms.ComboBox cbStudents_groups;
     }
 }
 

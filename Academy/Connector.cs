@@ -52,7 +52,7 @@ namespace Academy
             return table;
         }
 
-        public static Dictionary<string, int> LoadPair(string field_name, string field_id,string tables, string condition = "")
+        public static Dictionary<string, int> LoadPair(string field_name, string field_id, string tables, string condition = "")
         {
             Dictionary<string, int> dictionary = null;
             string cmd = $"SELECT {field_name}, {field_id} FROM {tables}";
