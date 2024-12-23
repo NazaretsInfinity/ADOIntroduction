@@ -114,7 +114,7 @@ namespace Academy
             (
                 "group_id, group_name, direction_name",
                 "Groups, Directions",
-                $"direction = direction_id AND direction_name = '{cbGroups_direction.SelectedItem.ToString()}'"
+                $"direction = direction_id AND direction_name = '{cbGroups_direction.SelectedItem}'"
             );
 
             tslGroupCount.Text = $"Amount of Groups: {(dataGridViewGroups.RowCount == 0 ? 0 : dataGridViewGroups.RowCount-1)}";
