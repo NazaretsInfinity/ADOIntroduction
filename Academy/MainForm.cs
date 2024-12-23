@@ -124,7 +124,7 @@ namespace Academy
             foreach (DataGridViewRow row in dataGridViewStudents.Rows)
                 
                 if (row.Cells[5].Value != null & 
-                    row.Cells[5].Value?.ToString() == (sender as DataGridView).CurrentRow.Cells[1].Value.ToString())counter++;
+                    row.Cells[5].Value.ToString() == (sender as DataGridView).CurrentRow.Cells[1].Value.ToString())counter++;
                    
             tslStudentsInGroup.Text = $"Количество студентов: {counter}";
         }
