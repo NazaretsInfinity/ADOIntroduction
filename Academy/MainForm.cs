@@ -28,6 +28,7 @@ namespace Academy
 
            LoadStudents();
            LoadGroups();
+           LoadTeachers();
            LoadDirections();
         }
 
@@ -91,6 +92,16 @@ namespace Academy
                 cbGroupsDirection.Items.Insert(0, "All");
                 cbGroupsDirection.SelectedIndex = 0;
             }
+        }
+
+        void LoadTeachers()
+        {
+            dataGridViewTeachers.DataSource = Connector.LoadData(
+                  "[Last name] = last_name, [First name] = first_name, [Middle name] = ISNULL(middle_name, N''), [Day of Birth] = birth_date," +
+                  "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, " +
+                  "[Work since] = works_since",
+                  "Teachers"
+             );
         }
 
         private void cbGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
