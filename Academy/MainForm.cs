@@ -121,11 +121,16 @@ namespace Academy
 
         { 
             int counter = 0;
-            foreach (DataGridViewRow row in dataGridViewStudents.Rows)
-                
-                if (row.Cells[5].Value != null & 
-                    row.Cells[5].Value.ToString() == (sender as DataGridView).CurrentRow.Cells[1].Value.ToString())counter++;
-                   
+           // foreach (DataGridViewRow row in dataGridViewStudents.Rows)
+           //     
+           //     if (row.Cells[5].Value != null & 
+           //         row.Cells[5].Value.ToString() == (sender as DataGridView).CurrentRow.Cells[1].Value.ToString())counter++;
+               
+            for(int i =0;  i < dataGridViewStudents.Rows.Count-1;++i)
+            {
+                if (dataGridViewStudents.Rows[i].Cells[5].Value.ToString() == (sender as DataGridView).CurrentRow.Cells[1].Value.ToString())
+                    counter++;
+            }
             tslStudentsInGroup.Text = $"Количество студентов: {counter}";
         }
     }
