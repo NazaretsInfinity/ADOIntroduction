@@ -113,7 +113,7 @@ namespace Academy
             {
                 d_groups = Connector.LoadPair("group_name", "group_id", "Groups", $"direction = {FilterID}");
                 this.LoadDictionaryToComboBox(d_groups, cbStudents_group);
-                LoadStudents($" direction = direction_id AND direction_id = {d_directions[cbStudents_direction.SelectedItem.ToString()]}", "Direction");
+                LoadStudents($" direction = direction_id AND direction_id = {d_directions[cbStudents_direction.SelectedItem.ToString()]}", "Directions");
             }
             tslStudentsLabelCount.Text = $"Amount of students: {(dataGridViewStudents.RowCount == 0 ? 0 : dataGridViewStudents.RowCount - 1)}";
         }
