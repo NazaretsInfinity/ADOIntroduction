@@ -40,37 +40,6 @@ namespace Academy
           
         }
 
-        #region Old Loadstudents
-        void Loadstudents()
-        {
-            string cmd = "SELECT * FROM Students";
-            SqlCommand command = new SqlCommand(cmd, connection);
-            connection.Open();
-            SqlDataReader reader = command.ExecuteReader();
-
-            DataTable table = new DataTable();
-            if (reader.HasRows)
-            {
-                for (int i = 0; i < reader.FieldCount; ++i)
-                    table.Columns.Add(reader.GetName(i));
-
-                while (reader.Read())
-                {
-                    DataRow row = table.NewRow();//NewRow() creates a row which fields are relevant to 'table'
-                    for (int i = 0; i < reader.FieldCount; ++i)
-                    {
-                        row[i] = reader[i];
-                    }
-                    table.Rows.Add(row); // And this one add the row in GroupTable for real
-                                         // (in DataRowCollection that contains DataRow objects)    
-                }
-                dataGridViewStudents.DataSource = table;
-            }
-            reader.Close();
-            connection.Close();
-        } 
-        #endregion
-
         void LoadGroups()
         {
             dataGridViewGroups.DataSource = Connector.LoadData
@@ -89,14 +58,14 @@ namespace Academy
             tslGroupCount.Text = $"Amount of Groups: {dataGridViewGroups.RowCount - 1}";
         }
 
-        void LoadStudents(string constriction = "")
+        void LoadStudents(string constriction = "", string extra_table = "")
         {
             dataGridViewStudents.DataSource = Connector.LoadData
            (
                 "[Last name] = last_name, [First name] = first_name, [Middle name] = ISNULL(middle_name, N''), [Day of Birth] = birth_date," +
                 "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, [Group] = group_name",
-                "Students,Groups",
-                $"[group] = group_id {(constriction != "" ? $"AND {constriction}" : "")}"
+                $"Students,Groups{(extra_table != "" ? $",{extra_table}" : "")}",
+                $"{(constriction != "" ? $"{constriction} AND " : "")}[group] = group_id"
            );
             tslStudentsLabelCount.Text = $"Amount of Students: {dataGridViewStudents.RowCount - 1}";
         }
@@ -109,6 +78,8 @@ namespace Academy
                // bc.SelectedIndex = 0;       
         }
 
+
+        // ---------- EVENTS ----------- //
         private void cbGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(cbGroupsDirection.SelectedIndex == 0)LoadGroups();
@@ -126,7 +97,7 @@ namespace Academy
         {
 
             if (cbStudents_group.SelectedIndex == 0) LoadStudents();
-            else LoadStudents($"group_id = {d_groups[cbStudents_group.SelectedItem.ToString()]}");    
+            else LoadStudents($"group_id = {d_groups[cbStudents_group.SelectedItem.ToString()]}");    // here
         }
 
         private void cbStudents_direction_SelectedIndexChanged(object sender, EventArgs e)
@@ -142,20 +113,7 @@ namespace Academy
             {
                 d_groups = Connector.LoadPair("group_name", "group_id", "Groups", $"direction = {FilterID}");
                 this.LoadDictionaryToComboBox(d_groups, cbStudents_group);
-                dataGridViewStudents.DataSource = Connector.LoadData
-                (
-                 "[Last name] = last_name, " +
-                 "[First name] = first_name," +
-                 "[Middle name] = ISNULL(middle_name, N''), " +
-                 "[Day of Birth] = birth_date," +
-                 "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, " +
-                 "[Group] = group_name," +
-                 "[Direction] = direction_name",
-
-                 "Students,Groups,Directions",
-
-                 $"[group] = group_id AND direction = direction_id AND direction_id = {d_directions[cbStudents_direction.SelectedItem.ToString()]}"
-                );
+                LoadStudents($" direction = direction_id AND direction_id = {d_directions[cbStudents_direction.SelectedItem.ToString()]}", "Direction");
             }
             tslStudentsLabelCount.Text = $"Amount of students: {(dataGridViewStudents.RowCount == 0 ? 0 : dataGridViewStudents.RowCount - 1)}";
         }
