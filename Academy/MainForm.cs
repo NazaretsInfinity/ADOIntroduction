@@ -89,16 +89,16 @@ namespace Academy
             tslGroupCount.Text = $"Amount of Groups: {dataGridViewGroups.RowCount - 1}";
         }
 
-        void LoadStudents()
+        void LoadStudents(string constriction = "")
         {
             dataGridViewStudents.DataSource = Connector.LoadData
            (
                 "[Last name] = last_name, [First name] = first_name, [Middle name] = ISNULL(middle_name, N''), [Day of Birth] = birth_date," +
-                "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, [Group] = group_name,  [Direction] = direction_name",
-                "Students,Groups,Directions",
-                "[group] = group_id AND direction = direction_id"
+                "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, [Group] = group_name",
+                "Students,Groups",
+                $"[group] = group_id {(constriction != "" ? $"AND {constriction}" : "")}"
            );
-            tslStudentsLabelCount.Text = $"Amount of Students: {dataGridViewStudents.RowCount-1}";
+            tslStudentsLabelCount.Text = $"Amount of Students: {dataGridViewStudents.RowCount - 1}";
         }
 
         void LoadDictionaryToComboBox(Dictionary<string, int> dc, ComboBox bc)
@@ -124,16 +124,9 @@ namespace Academy
 
         private void cbStudents_group_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
             if (cbStudents_group.SelectedIndex == 0) LoadStudents();
-            else dataGridViewStudents.DataSource = Connector.LoadData
-                (
-                 "[Last name] = last_name, [First name] = first_name, [Middle name] = ISNULL(middle_name, N''), [Day of Birth] = birth_date," +
-                 "[Age] = DATEDIFF(DAY, birth_date, GETDATE())/365, [Group] = group_name,  [Direction] = direction_name",
-                 "Students,Groups,Directions",
-                 $"direction= direction_id AND [group] = group_id AND group_id = {d_groups[cbStudents_group.SelectedItem.ToString()]}"
-                );
-            tslStudentsLabelCount.Text = $"Amount of students: {(dataGridViewStudents.RowCount == 0 ? 0 : dataGridViewStudents.RowCount - 1)}";
+            else LoadStudents($"group_id = {d_groups[cbStudents_group.SelectedItem.ToString()]}");    
         }
 
         private void cbStudents_direction_SelectedIndexChanged(object sender, EventArgs e)
