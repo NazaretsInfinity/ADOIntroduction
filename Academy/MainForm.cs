@@ -29,12 +29,14 @@ namespace Academy
 
             d_directions = Connector.LoadPair("direction_name", "direction_id", "Directions");
             d_groups = Connector.LoadPair("group_name", "group_id", "Groups");
+            //Loading comboboxes
             LoadDictionaryToComboBox(d_groups, cbStudents_group);
             LoadDictionaryToComboBox(d_directions, cbGroupsDirection);
             LoadDictionaryToComboBox(d_directions, cbStudents_direction);
 
-           LoadStudents();
-           LoadGroups();
+            //loading grids
+            LoadStudents();
+            LoadGroups();
           
         }
 
@@ -73,10 +75,10 @@ namespace Academy
         {
             dataGridViewGroups.DataSource = Connector.LoadData
                 (
-                " [ID]=group_id," +
-                " [Group]=group_name," +
-                " [Direction] = direction_name, " +
-                " [Amount of students] = COUNT(student_id)",
+                "[ID]=group_id," +
+                "[Group]=group_name," +
+                "[Direction] = direction_name, " +
+                "[Amount of students] = COUNT(student_id)",
                                                               
                 "Students RIGHT JOIN Groups ON([group] = group_id) " +
                 "JOIN Directions ON(direction = direction_id)" ,
